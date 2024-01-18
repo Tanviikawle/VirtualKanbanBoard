@@ -59,7 +59,7 @@ app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'))
 
 app.get('/',(req,res)=>{
-    res.send('Hello from server');
+    res.render('landingPage');
 })
 
 app.get('/login',(req,res)=>{
@@ -85,16 +85,23 @@ app.post('/register',async(req,res)=>{
             res.redirect('/home');
         });
     }catch(e){
-        res.redirect('/error');
+        res.render('error');
     }
 })
 
-app.get('/home',(req,res)=>{
+app.get('/home',isLoggedIn,(req,res)=>{
     res.render('home');
 })
 
-app.get('/protected',isLoggedIn,(req,res)=>{
-    res.send('This is protected route');
+app.get('/newProject',isLoggedIn,(req,res)=>{
+    res.render('createNewProject');
+})
+
+app.get('/logout',(req,res,next)=>{
+    req.logout(err=>{
+        if(err) return next(err);
+    });
+    res.redirect('/');
 })
 
 app.listen('3000',()=>{
