@@ -1,5 +1,17 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="conatiner">
-    <h1>Dashboard</h1>
+<div class="container-md" style="width: 70%;">
+    <div class="mb-3">
+        <h1> All Projects </h1>
+    </div>
+    <% for (let project in projects){ %>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h3 class="card-title"><%= projects[project].title %></h3>
+            <p class="card-text"><%= projects[project].description %></p>
+            <p class="text-muted">Created at : <%= projects[project].date %></p>
+            <a href="/projects/<%=projects[project]._id %>" class="btn btn-primary">View</a>
+          </div>
+    </div>
+    <%}%>
 </div>

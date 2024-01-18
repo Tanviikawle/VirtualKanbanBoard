@@ -7,7 +7,9 @@ const methodOverride = require('method-override');
 const passport = require('passport');
 const localStategy = require('passport-local');
 const User = require('./models/user');
-const { isLoggedIn } = require('./middleware')
+const { isLoggedIn } = require('./middleware');
+const currentDate = require('./public/javascripts/getDate');
+const Project = require('./models/project');
 
 //Database Connection
 mongoose.connect('mongodb://localhost:27017/kanban',{
@@ -66,7 +68,7 @@ app.get('/login',(req,res)=>{
     res.render('user/login');
 })
 app.post('/login',passport.authenticate('local',{failureRedirect:'/login'}),(req,res)=>{
-    const redirectUrl = req.session.returnTo || '/home';
+    const redirectUrl = req.session.returnTo || '/projects';
     // console.log(req.session)
     delete req.session.returnTo; 
     res.redirect(redirectUrl);
@@ -82,19 +84,53 @@ app.post('/register',async(req,res)=>{
         const registeredUser = await User.register(user,password);
         req.login(registeredUser,err =>{
             if(err) return next(err);
-            res.redirect('/home');
+            res.redirect('/projects');
         });
     }catch(e){
         res.render('error');
     }
 })
 
-app.get('/home',isLoggedIn,(req,res)=>{
-    res.render('home');
+app.get('/projects',isLoggedIn,async(req,res)=>{
+    const projects = await Project.find({});
+    console.log(projects);
+    res.render('home',{ projects });
+})
+
+app.post('/projects',async(req,res)=>{
+    console.log(req.body)
+    try{
+        const { title , description } = req.body;
+        const date = currentDate;
+        const newProject = new Project({title:title,description:description,date:date})
+        const result = await newProject.save()
+        console.log(result);
+        res.redirect('/projects');
+    }catch(e){
+        res.render('error');
+    }
 })
 
 app.get('/newProject',isLoggedIn,(req,res)=>{
     res.render('createNewProject');
+})
+
+
+
+app.get('/projects/:id',async(req,res)=>{
+    const { id } = req.params;
+    const project = await Project.findById(id);
+    res.render('show' , {project});
+})
+
+app.delete('/projects/:id',async(req,res)=>{
+    const { id } = req.params;
+    const result = await Project.findByIdAndDelete(id);
+    res.redirect('/projects');
+})
+
+app.get('/projects/:id/add',(req,res)=>{
+    res.render('newTask');
 })
 
 app.get('/logout',(req,res,next)=>{

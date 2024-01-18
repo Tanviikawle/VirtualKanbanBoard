@@ -1,0 +1,19 @@
+<% layout('layouts/boilerplate') %>
+<div class="container-md">
+    <div class="mb-3">
+        <h1><%=project.title %></h1>
+    </div>
+    <div class="mb-3">
+        <p><%= project.description %></p>
+    </div>
+    <div class="mb-3">
+        <h3>Tasks:</h3>
+        <a href="/projects/<%= project._id %>/add"><button class="btn btn-primary">Add Task</button></a>
+    </div>
+    <div class="mb-3">
+        <form action="/projects/<%= project._id%>?_method=DELETE" method="post">
+            <button class="btn btn-danger">Delete Project</button>
+        </form>
+    </div>
+</div>
+
