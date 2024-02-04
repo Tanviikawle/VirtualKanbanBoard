@@ -1,0 +1,98 @@
+<% layout('layouts/boilerplate') %>
+<div class="container-md">
+    <div class="mb-3">
+        <h1><%=project.title %></h1>
+    </div>
+    <div class="mb-3">
+        <p><%= project.description %></p>
+    </div>
+    <div class="mb-3">
+        <h2>Tasks:</h2>
+        <!-- All tasks -->
+        <h3>All Tasks</h3>
+        <ul>
+        <% for(let task of allTasks) { %>
+            <% if(task.status == 'All Tasks') { %>
+            <!-- <li><%= task.title %></li> -->
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title"><%= task.title %></h5>
+                  <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: Username</h6>
+                  <p class="card-text">Here should be due date</p>
+                  <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
+                  <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
+                      <button class="btn btn-danger">Delete task</button>
+                  </form>
+                </div>
+            </div>
+            <% } %>
+        <% } %>
+        </ul>
+        <!-- Backlog -->
+        <h3>Backlog</h3>
+        <ul>
+        <% for(let task of allTasks) { %>
+            <% if(task.status == 'Backlog') { %>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title"><%= task.title %></h5>
+                  <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: Username</h6>
+                  <p class="card-text">Here should be due date</p>
+                  <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
+                  <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
+                      <button class="btn btn-danger">Delete task</button>
+                  </form>
+                </div>
+            </div>
+            <% } %>
+        <% } %>
+        </ul>
+        <!-- In progress -->
+        <h3>In Progress</h3>
+        <ul>
+        <% for(let task of allTasks) { %>
+            <% if(task.status == 'In Progress') { %>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= task.title %></h5>
+                      <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: Username</h6>
+                      <p class="card-text">Here should be due date</p>
+                      <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
+                      <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
+                          <button class="btn btn-danger">Delete task</button>
+                      </form>
+                    </div>
+                </div>
+            <% } %>
+        <% } %>
+        </ul>
+        <!-- Completed -->
+        <h3>Completed</h3>
+        <ul>
+        <% for(let task of allTasks) { %>
+            <% if(task.status == 'Completed') { %>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= task.title %></h5>
+                      <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: Username</h6>
+                      <p class="card-text">Here should be due date</p>
+                      <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
+                      <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
+                          <button class="btn btn-danger">Delete task</button>
+                      </form>
+                    </div>
+                </div>
+            <% } %>
+        <% } %>
+        </ul>
+
+        <a href="/projects/<%= project._id %>/add"><button class="btn btn-primary">Add Task</button></a>
+    </div>
+    <div class="mb-3">
+        <a href="/projects/<%= project._id %>/update"><button class="btn btn-primary">Update Project</button></a>
+        <form action="/projects/<%= project._id%>?_method=DELETE" method="post">
+            <button class="btn btn-danger">Delete Project</button>
+        </form>
+    </div>
+</div>
+

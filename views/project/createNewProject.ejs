@@ -2,10 +2,10 @@
 <div class="container-md "  style="width: 80vh;">
     <h1>Create New Project</h1>
     <div class="container-md">
-        <form action="/home" method="post" class="validated-form" novalidate>
+        <form action="/projects" method="post" class="validated-form" novalidate>
             <div class="mb-3">
                 <label for="title" class="form-label" autofocus>Project title: </label>
-                <input type="text" class="form-control" id="title" name="title" required>
+                <input type="text" class="form-control" id="title" name="project[title]" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -13,7 +13,7 @@
         
             <div class="mb-3">
                 <label for="description" class="form-label">Project Description:</label>
-                <textarea type="text" class="form-control" id="description" name="description"></textarea>
+                <textarea type="text" class="form-control" id="description" name="project[description]"></textarea>
                 <div class="valid-feedback">
                     Looks good!
                 </div>

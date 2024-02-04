@@ -10,14 +10,11 @@ const User = require('./models/user');
 const { isLoggedIn } = require('./middleware');
 const currentDate = require('./public/javascripts/getDate');
 const Project = require('./models/project');
+const Task = require('./models/task');
+const tasks = require('./controllers/task')
 
 //Database Connection
-mongoose.connect('mongodb://localhost:27017/kanban',{
-    // useNewUrlParser: true,
-    // useCreateIndex: true,
-    // useUnifiedTopology: true,
-    // useFindAndModify: false
-});
+mongoose.connect('mongodb://localhost:27017/kanban',{});
 
 const db = mongoose.connection;
 db.on('error',console.error.bind(console,"connection error:"));
@@ -94,17 +91,17 @@ app.post('/register',async(req,res)=>{
 app.get('/projects',isLoggedIn,async(req,res)=>{
     const projects = await Project.find({});
     console.log(projects);
-    res.render('home',{ projects });
+    res.render('project/home',{ projects });
 })
 
 app.post('/projects',async(req,res)=>{
-    console.log(req.body)
+    // console.log(req.body)
     try{
-        const { title , description } = req.body;
+        const { title , description } = req.body.project;
         const date = currentDate;
         const newProject = new Project({title:title,description:description,date:date})
         const result = await newProject.save()
-        console.log(result);
+        // console.log(result);
         res.redirect('/projects');
     }catch(e){
         res.render('error');
@@ -112,15 +109,36 @@ app.post('/projects',async(req,res)=>{
 })
 
 app.get('/newProject',isLoggedIn,(req,res)=>{
-    res.render('createNewProject');
+    res.render('project/createNewProject');
 })
-
-
 
 app.get('/projects/:id',async(req,res)=>{
     const { id } = req.params;
     const project = await Project.findById(id);
-    res.render('show' , {project});
+    const allTasks = await Task.find({projectId:id})
+    console.log(allTasks)
+    if(!project){
+        // req.flash('error','Cannot find that project!')
+        return res.redirect('/projects')
+    }
+    res.render('project/show' , {project,allTasks});
+})
+
+app.get('/projects/:id/update',async(req,res)=>{
+    const { id } = req.params;
+    const project = await Project.findById(id);
+    if(!project){
+        return res.redirect('/projects')
+    }
+    res.render('project/update' , {project});
+})
+
+app.put('/projects/:id', async(req,res)=>{
+    const {id} = req.params;
+    const project = await Project.findByIdAndUpdate(id,{...req.body.project});
+    await project.save();
+    // req.flash('success','Successfully updated a cafe!')
+    res.redirect(`/projects/${project.id}`)
 })
 
 app.delete('/projects/:id',async(req,res)=>{
@@ -129,9 +147,17 @@ app.delete('/projects/:id',async(req,res)=>{
     res.redirect('/projects');
 })
 
-app.get('/projects/:id/add',(req,res)=>{
-    res.render('newTask');
-})
+app.get('/projects/:id/add',isLoggedIn,tasks.renderNewTask)
+
+app.post('/projects/:id/t',isLoggedIn,tasks.createTask)
+
+app.get('/projects/:id/t/:t_id',tasks.showTask)
+
+app.delete('/projects/:id/t/:t_id',isLoggedIn,tasks.deleteTask)
+
+app.get('/projects/:id/t/:t_id/update',isLoggedIn,tasks.renderUpdate)
+
+app.put('/projects/:id/t/:t_id',isLoggedIn,tasks.updateTask)
 
 app.get('/logout',(req,res,next)=>{
     req.logout(err=>{

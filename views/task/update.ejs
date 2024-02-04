@@ -1,0 +1,48 @@
+<% layout('layouts/boilerplate') %>
+<div class="container-md "  style="width: 80vh;">
+    <h1>Create new task</h1>
+    <div class="container-md">
+        <form action="/projects/<%=task.projectId%>/t/<%=task._id%>?_method=PUT" method="post" class="validated-form" novalidate>
+            <div class="mb-3">
+                <label for="title" class="form-label" autofocus>Task name: </label>
+                <input type="text" class="form-control" id="title" name="task[title]" value="<%=task.title%>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Task Description:</label>
+                <textarea type="text" class="form-control" id="description" name="task[description]"><%=task.description%></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <!-- status -->
+                <label for="status" class="form-label">Task Status:</label>
+                <select name="task[status]" id="status">
+                    <% for (let s of statusList) { %>
+                        <option value="<%=s%>" <%= task.status === s ? 'selected' : '' %>><%=s%></option>
+                    <%}%>
+                </select>
+            </div>
+            <div class="mb-3">
+                <!-- priority -->
+                <label >Priority: </label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="task[priority]" id="low" value="low" <%= task.priority === 'low' ? 'checked' : '' %> required>
+                        <label class="form-check-label" for="low">Low</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="task[priority]" id="medium" value="medium" <%= task.priority === 'medium' ? 'checked' : '' %> required>
+                        <label class="form-check-label" for="medium">Medium</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="task[priority]" id="high" value="high" <%= task.priority === 'medium' ? 'high' : '' %> required>
+                        <label class="form-check-label" for="high">High</label>
+                    </div>
+            </div>
+            <button class="btn btn-primary btn-block">Update</button>
+        </form>
+    </div>
+</div>
