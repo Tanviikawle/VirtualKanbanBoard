@@ -1,7 +1,6 @@
-const Project = require('../models/project');
-const User = require('../models/user');
 const Task = require('../models/task');
 const currentDate = require('../public/javascripts/getDate');
+const getDate = require('../public/javascripts/dueDate')
 
 const statusList = ['All Tasks' , 'Backlog' , 'In Progress','Completed']
 
@@ -14,8 +13,9 @@ module.exports.renderNewTask = (req,res)=>{
 module.exports.createTask = async(req,res)=>{
     try{
         const { id } = req.params;
-        const { title , description ,status, priority} = req.body.task;
+        const { title , description ,status, priority,dueDate} = req.body.task;
         const date = currentDate;
+        const newDueDate = getDate(dueDate.replace('-',','));
         const newTask = new Task({
             title:title,
             description:description,
@@ -23,12 +23,13 @@ module.exports.createTask = async(req,res)=>{
             priority:priority,
             assignedTo:req.user._id,
             date:date,
+            dueDate:newDueDate,
             projectId: id
         })
         const result = await newTask.save()
         res.redirect(`/projects/${id}`);
     }catch(e){
-        // console.log(e)
+        console.log(e)
         res.render('error');
     }
 }

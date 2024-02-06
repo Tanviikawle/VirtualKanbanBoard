@@ -3,6 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
+const flash = require('connect-flash')
 const methodOverride = require('method-override');
 const passport = require('passport');
 const localStategy = require('passport-local');
@@ -11,7 +12,9 @@ const { isLoggedIn } = require('./middleware');
 const currentDate = require('./public/javascripts/getDate');
 const Project = require('./models/project');
 const Task = require('./models/task');
-const tasks = require('./controllers/task')
+const tasks = require('./controllers/task');
+const users = require('./controllers/user');
+const projects = require('./controllers/project')
 
 //Database Connection
 mongoose.connect('mongodb://localhost:27017/kanban',{});
@@ -39,7 +42,8 @@ const sessionConfig = {
 
     }
 }
-app.use(session(sessionConfig))
+app.use(session(sessionConfig));
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -49,9 +53,11 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req,res,next)=>{
-   res.locals.currentUser = req.user;
-   next();
-})
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+ })
 
 app.engine('ejs',ejsMate)
 app.set('view engine','ejs');
@@ -61,110 +67,30 @@ app.get('/',(req,res)=>{
     res.render('landingPage');
 })
 
-app.get('/login',(req,res)=>{
-    res.render('user/login');
-})
-app.post('/login',passport.authenticate('local',{failureRedirect:'/login'}),(req,res)=>{
-    const redirectUrl = req.session.returnTo || '/projects';
-    // console.log(req.session)
-    delete req.session.returnTo; 
-    res.redirect(redirectUrl);
-})
+//User routes
+app.get('/login',users.renderLogin)
+app.post('/login',passport.authenticate('local',{failureFlash:true,failureRedirect:'/login',keepSessionInfo: true}),users.login)
+app.get('/register',users.renderRegister)
+app.post('/register',users.register)
 
-app.get('/register',(req,res)=>{
-    res.render('user/register');
-})
-app.post('/register',async(req,res)=>{
-    try{
-        const {email , username , password}=req.body;
-        const user = new User({email , username});
-        const registeredUser = await User.register(user,password);
-        req.login(registeredUser,err =>{
-            if(err) return next(err);
-            res.redirect('/projects');
-        });
-    }catch(e){
-        res.render('error');
-    }
-})
+//Project routes
+app.get('/projects',isLoggedIn,projects.showProjects);
+app.post('/projects',projects.addProject)
+app.get('/newProject',isLoggedIn,projects.renderNewProject)
+app.get('/projects/:id',projects.showProject)
+app.get('/projects/:id/update',projects.renderUpdateProject)
+app.put('/projects/:id', projects.updateProject)
+app.delete('/projects/:id',projects.deleteProject)
 
-app.get('/projects',isLoggedIn,async(req,res)=>{
-    const projects = await Project.find({});
-    console.log(projects);
-    res.render('project/home',{ projects });
-})
-
-app.post('/projects',async(req,res)=>{
-    // console.log(req.body)
-    try{
-        const { title , description } = req.body.project;
-        const date = currentDate;
-        const newProject = new Project({title:title,description:description,date:date})
-        const result = await newProject.save()
-        // console.log(result);
-        res.redirect('/projects');
-    }catch(e){
-        res.render('error');
-    }
-})
-
-app.get('/newProject',isLoggedIn,(req,res)=>{
-    res.render('project/createNewProject');
-})
-
-app.get('/projects/:id',async(req,res)=>{
-    const { id } = req.params;
-    const project = await Project.findById(id);
-    const allTasks = await Task.find({projectId:id})
-    console.log(allTasks)
-    if(!project){
-        // req.flash('error','Cannot find that project!')
-        return res.redirect('/projects')
-    }
-    res.render('project/show' , {project,allTasks});
-})
-
-app.get('/projects/:id/update',async(req,res)=>{
-    const { id } = req.params;
-    const project = await Project.findById(id);
-    if(!project){
-        return res.redirect('/projects')
-    }
-    res.render('project/update' , {project});
-})
-
-app.put('/projects/:id', async(req,res)=>{
-    const {id} = req.params;
-    const project = await Project.findByIdAndUpdate(id,{...req.body.project});
-    await project.save();
-    // req.flash('success','Successfully updated a cafe!')
-    res.redirect(`/projects/${project.id}`)
-})
-
-app.delete('/projects/:id',async(req,res)=>{
-    const { id } = req.params;
-    const result = await Project.findByIdAndDelete(id);
-    res.redirect('/projects');
-})
-
+//Task routes
 app.get('/projects/:id/add',isLoggedIn,tasks.renderNewTask)
-
 app.post('/projects/:id/t',isLoggedIn,tasks.createTask)
-
 app.get('/projects/:id/t/:t_id',tasks.showTask)
-
 app.delete('/projects/:id/t/:t_id',isLoggedIn,tasks.deleteTask)
-
 app.get('/projects/:id/t/:t_id/update',isLoggedIn,tasks.renderUpdate)
-
 app.put('/projects/:id/t/:t_id',isLoggedIn,tasks.updateTask)
 
-app.get('/logout',(req,res,next)=>{
-    req.logout(err=>{
-        if(err) return next(err);
-    });
-    res.redirect('/');
-})
+app.get('/logout', isLoggedIn,users.logout)
 
 app.listen('3000',()=>{
     console.log('Listening on port 3000!');

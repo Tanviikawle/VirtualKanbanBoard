@@ -4,6 +4,7 @@
 <p>Status:<%=task.status%></p>
 <p>Priority:<%=task.priority%></p>
 <p>Date of creation: <%=task.date%></p>
+<p>Due Date: <%=task.dueDate%></p>
 <p>Assigned to: Username</p>
 <a href="/projects/<%=task.projectId%>">Back to all tasks</a>
 <a href="/projects/<%= task.projectId %>/t/<%=task._id%>/update"><button class="btn btn-primary">Update Task</button></a>

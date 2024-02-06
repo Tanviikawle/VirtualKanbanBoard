@@ -7,6 +7,7 @@ const taskSchema = Schema({
   status: String,
   priority: String,
   date: String,
+  dueDate: String,
   assignedTo: [{ 
     type: Schema.Types.ObjectId, 
     ref: 'User' 
