@@ -15,7 +15,7 @@ const projectSchema = Schema({
   date: String,
   members:[{ 
     type: Schema.Types.ObjectId, 
-    ref: 'User' 
+    ref: 'User' ,
   }],
   type: String,
 });

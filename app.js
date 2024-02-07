@@ -8,7 +8,7 @@ const methodOverride = require('method-override');
 const passport = require('passport');
 const localStategy = require('passport-local');
 const User = require('./models/user');
-const { isLoggedIn } = require('./middleware');
+const { isLoggedIn,isUserRegistered } = require('./middleware');
 const currentDate = require('./public/javascripts/getDate');
 const Project = require('./models/project');
 const Task = require('./models/task');
@@ -81,6 +81,7 @@ app.get('/projects/:id',projects.showProject)
 app.get('/projects/:id/update',projects.renderUpdateProject)
 app.put('/projects/:id', projects.updateProject)
 app.delete('/projects/:id',projects.deleteProject)
+app.post('/projects/:id/n',isUserRegistered,projects.addNewMember)
 
 //Task routes
 app.get('/projects/:id/add',isLoggedIn,tasks.renderNewTask)

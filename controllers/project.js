@@ -1,4 +1,5 @@
 const Project = require('../models/project');
+const User = require('../models/user');
 const currentDate = require('../public/javascripts/getDate');
 const Task = require('../models/task');
 
@@ -65,3 +66,33 @@ module.exports.deleteProject = async(req,res)=>{
     const result = await Project.findByIdAndDelete(id);
     res.redirect('/projects');
 }
+
+module.exports.addNewMember = async(req,res)=>{
+    const { id } = req.params;
+    try{
+        const project = await Project.findById(id).populate('members')
+        const isUser = await User.findOne({email:req.body.newMemberEmail});
+        let isMember = false;
+        for(let p of project.members){
+            if(p.email==isUser.email){
+                isMember = true;
+                break;
+            }
+        }
+        if (!isMember){
+            project.members.push(isUser._id);
+            const result = await project.save()
+            req.flash('success','Successfully added member to group project!')
+            res.redirect(`/projects/${id}`)
+        }else{
+            req.flash('error','User is already roup member of project.')
+            res.redirect(`/projects/${id}`)
+        }
+        
+    }catch(e){
+        console.log(e)
+        req.flash('error',e.message);
+        res.render('error');
+    }
+}
+
