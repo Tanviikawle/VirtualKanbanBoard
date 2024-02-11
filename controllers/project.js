@@ -34,8 +34,8 @@ module.exports.addProject = async(req,res)=>{
 
 module.exports.showProject = async(req,res)=>{
     const { id } = req.params;
-    const project = await Project.findById(id);
-    const allTasks = await Task.find({projectId:id})
+    const project = await Project.findById(id).populate('creator');
+    const allTasks = await Task.find({projectId:id}).populate('assignedTo');
     // console.log(allTasks)
     if(!project){
         req.flash('error','Cannot find that project!')

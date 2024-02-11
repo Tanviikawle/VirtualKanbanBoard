@@ -17,12 +17,14 @@
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
                   <h5 class="card-title"><%= task.title %></h5>
-                  <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: Username</h6>
+                  <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: <%= task.assignedTo[0].username %></h6>
                   <p class="card-text">Due date: <%= task.dueDate %></p>
                   <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
+                  <% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
                   <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
                       <button class="btn btn-danger">Delete task</button>
                   </form>
+                  <%}%>
                 </div>
             </div>
             <% } %>
@@ -36,12 +38,14 @@
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
                   <h5 class="card-title"><%= task.title %></h5>
-                  <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: Username</h6>
+                  <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: <%= task.assignedTo[0].username %></h6>
                   <p class="card-text">Due date: <%= task.dueDate %></p>
                   <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
+                  <% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
                   <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
                       <button class="btn btn-danger">Delete task</button>
                   </form>
+                  <%}%>
                 </div>
             </div>
             <% } %>
@@ -55,12 +59,14 @@
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                       <h5 class="card-title"><%= task.title %></h5>
-                      <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: Username</h6>
+                      <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: <%= task.assignedTo[0].username %></h6>
                       <p class="card-text">Due date: <%= task.dueDate %></p>
                       <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
+                      <% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
                       <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
                           <button class="btn btn-danger">Delete task</button>
                       </form>
+                      <%}%>
                     </div>
                 </div>
             <% } %>
@@ -74,12 +80,14 @@
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                       <h5 class="card-title"><%= task.title %></h5>
-                      <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: Username</h6>
+                      <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: <%= task.assignedTo[0].username %></h6>
                       <p class="card-text">Due date: <%= task.dueDate %></p>
                       <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
+                      <% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
                       <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
                           <button class="btn btn-danger">Delete task</button>
                       </form>
+                      <%}%>
                     </div>
                 </div>
             <% } %>
@@ -89,6 +97,7 @@
         <a href="/projects/<%= project._id %>/add"><button class="btn btn-primary">Add Task</button></a>
     </div>
 
+    <% if(currentUser.username == project.creator[0].username) { %>
     <div class="mb-3">
         <a href="/projects/<%= project._id %>/update"><button class="btn btn-primary">Update Project</button></a>
         <form action="/projects/<%= project._id%>?_method=DELETE" method="post">
@@ -129,5 +138,6 @@
     </div>
     <%}%>
 </div>
+<%}%>
 
 

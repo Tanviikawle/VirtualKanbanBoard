@@ -12,7 +12,10 @@ const taskSchema = Schema({
     type: Schema.Types.ObjectId, 
     ref: 'User' 
     }],
-  projectId:String
+  projectId:[{ 
+    type: Schema.Types.ObjectId, 
+    ref: 'Project' 
+    }]
 });
 
 module.exports = mongoose.model('Task',taskSchema);

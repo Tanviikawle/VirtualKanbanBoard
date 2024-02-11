@@ -5,6 +5,8 @@
 <p>Priority:<%=task.priority%></p>
 <p>Date of creation: <%=task.date%></p>
 <p>Due Date: <%=task.dueDate%></p>
-<p>Assigned to: Username</p>
+<p>Assigned to: <%= task.assignedTo[0].username %></p>
 <a href="/projects/<%=task.projectId%>">Back to all tasks</a>
+<% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
 <a href="/projects/<%= task.projectId %>/t/<%=task._id%>/update"><button class="btn btn-primary">Update Task</button></a>
+<%}%>

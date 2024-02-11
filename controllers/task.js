@@ -1,19 +1,22 @@
 const Task = require('../models/task');
+const Project = require('../models/project');
 const currentDate = require('../public/javascripts/getDate');
 const getDate = require('../public/javascripts/dueDate')
 
 const statusList = ['All Tasks' , 'Backlog' , 'In Progress','Completed']
 
-module.exports.renderNewTask = (req,res)=>{
+module.exports.renderNewTask = async(req,res)=>{
     const { id } = req.params;
+    const project = await Project.findById(id).populate('members');
     // console.log(req.user)
-    res.render('task/newTask',{id});
+    res.render('task/newTask',{id,project});
 }
 
 module.exports.createTask = async(req,res)=>{
     try{
         const { id } = req.params;
-        const { title , description ,status, priority,dueDate} = req.body.task;
+        const project = await Project.findById(id);
+        const { title , description ,status, priority,dueDate,assignedTo} = req.body.task;
         const date = currentDate;
         const newDueDate = getDate(dueDate.replace('-',','));
         const newTask = new Task({
@@ -21,12 +24,18 @@ module.exports.createTask = async(req,res)=>{
             description:description,
             status:status,
             priority:priority,
-            assignedTo:req.user._id,
             date:date,
             dueDate:newDueDate,
             projectId: id
         })
+        // project.type==="Group Project" ?  'assignedTo:task[assignedTo]': 'assignedTo:req.user._id';
+        if(project.type=="Group Project"){
+            newTask.assignedTo = assignedTo;
+        }else{
+            newTask.assignedTo = req.user._id;
+        }
         const result = await newTask.save()
+        // console.log(result)
         res.redirect(`/projects/${id}`);
     }catch(e){
         console.log(e)
@@ -36,13 +45,14 @@ module.exports.createTask = async(req,res)=>{
 
 module.exports.showTask = async(req,res)=>{
     const { id,t_id } = req.params;
-    const task = await Task.findById(t_id);
+    const project = await Project.findById(id).populate('creator');
+    const task = await Task.findById(t_id).populate('assignedTo');
     if(!task){
-        // req.flash('error','Cannot find that project!')
+        req.flash('error','Cannot find that project!')
         return res.redirect(`/projects/${id}`)
     }
-    console.log(task)
-    res.render('task/show',{task});
+    // console.log(task)
+    res.render('task/show',{task,project});
 }
 
 module.exports.deleteTask = async(req,res)=>{
@@ -56,7 +66,7 @@ module.exports.deleteTask = async(req,res)=>{
 }
 
 module.exports.renderUpdate = async(req,res)=>{
-    const { t_id } = req.params;
+    const {id, t_id } = req.params;
     try{
         const task = await Task.findById(t_id);
         res.render('task/update',{task,statusList});
