@@ -1,0 +1,7 @@
+<% layout('layouts/boilerplate') %>
+<div class="container mb-3">
+    <h3>Are you sure youwant to leave project?</h3>
+    <form action="/projects/<%= project._id%>/leave" method="post">
+        <button class="btn btn-danger">yes, Leave Project</button>
+    </form>
+</div>

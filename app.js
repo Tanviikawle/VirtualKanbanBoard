@@ -82,6 +82,8 @@ app.get('/projects/:id/update',projects.renderUpdateProject)
 app.put('/projects/:id', projects.updateProject)
 app.delete('/projects/:id',projects.deleteProject)
 app.post('/projects/:id/n',isUserRegistered,projects.addNewMember)
+app.get('/projects/:id/leave',projects.renderLeaveProject)
+app.post('/projects/:id/leave',projects.leaveProject)
 
 //Task routes
 app.get('/projects/:id/add',isLoggedIn,tasks.renderNewTask)

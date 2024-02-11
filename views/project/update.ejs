@@ -18,6 +18,21 @@
                     Looks good!
                 </div>
             </div>
+            <div class="mb-3">
+                <label for="type" class="form-label">Project type:</label>
+                <!-- <select class="form-select" id="type" name="project[type]" aria-label="Default select example">
+                    <option value="Personal Project" selected>Personal Project</option>
+                    <option value="Group Project">Group Project</option>
+                </select> -->
+                <select name="project[type]" id="type">
+                    <% for (let s of typeList) { %>
+                        <option value="<%=s%>" <%= project.type === s ? 'selected' : '' %>><%=s%></option>
+                    <%}%>
+                </select>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
             <button class="btn btn-primary btn-block">Update</button>
         </form>
     </div>

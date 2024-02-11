@@ -3,8 +3,11 @@ const User = require('../models/user');
 const currentDate = require('../public/javascripts/getDate');
 const Task = require('../models/task');
 
+const typeList = ['Personal Project','Group Project']
+
 module.exports.showProjects = async(req,res)=>{
     const projects = await Project.find({}).where('members').elemMatch({$in:req.user._id});
+    console.log(projects)
     res.render('project/home',{ projects });
 }
 
@@ -50,7 +53,7 @@ module.exports.renderUpdateProject = async(req,res)=>{
     if(!project){
         return res.redirect('/projects')
     }
-    res.render('project/update' , {project});
+    res.render('project/update' , {project,typeList});
 }
 
 module.exports.updateProject = async(req,res)=>{
@@ -96,3 +99,23 @@ module.exports.addNewMember = async(req,res)=>{
     }
 }
 
+module.exports.renderLeaveProject = async(req,res)=>{
+    const { id } = req.params;
+    const project = await Project.findById(id);
+    res.render('project/leave',{project})
+}
+
+module.exports.leaveProject = async(req,res)=>{
+    try{
+        const { id } = req.params
+        const project = await Project.findById(id).populate('members');
+        project.members.pull(req.user._id);
+        const result = await project.save();
+        req.flash('success','Successfully left the project!')
+        res.redirect(`/projects`)
+    }catch(e){
+        console.log(e)
+        req.flash('error',e.message);
+        res.render('error');
+    }
+}
