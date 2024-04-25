@@ -1,6 +1,10 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+<link rel="stylesheet" href="/css/nav.css">
+<nav class="navbar sticky-top navbar-expand-lg " id="navbarStyle">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Kanban Boards</a>
+        <a class="navbar-brand" href="/">
+            <img src="/logo.svg" alt="Logo" width="130" class="d-inline-block align-text-top">
+        </a>
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -11,11 +15,22 @@
                 <a class="nav-link" href="/newProject">Create Project</a>
             </div>
             <div class="navbar-nav ms-auto">
+                
                 <% if(!currentUser){ %>
-                <a class="nav-link" href="/login">Login</a>
-                <a class="nav-link" href="/register">Register</a>
-                <% } else { %>    
-                <a class="nav-link" href="/logout">Logout</a>
+                <a class="nav-link" href="/login">
+                    <!-- <img src="/logout.svg" alt="Logo" width="20" class="d-inline-block align-text-top"> -->
+                    Login</a>
+                <a class="nav-link" href="/register">
+                    Register</a>
+                <% } else { %>   
+                    <a href="#" class="nav-link">
+                        <%= currentUser.username %>
+                        <img src="/user.svg" alt="Logo" width="20" class="d-inline-block align-text-top">
+                    </a> 
+                <a class="nav-link" href="/logout">
+                    Logout
+                    <img src="/logout.svg" alt="Logo" width="17" class="d-inline-block align-text-top">
+                </a>
                 <% } %>
             </div>
         </div>

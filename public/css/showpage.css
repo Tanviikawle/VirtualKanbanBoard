@@ -1,0 +1,101 @@
+#main{
+    /* background: linear-gradient(#141415, rgba(0, 0, 0, 0.137)); */
+    color: white;
+}
+body{
+    /* background: linear-gradient(#141415, rgba(0, 0, 0, 0.582)); */
+    width: 100%;
+    background-color: #141415;
+    position: relative;
+}
+
+.col-3{
+    justify-content: flex-start;
+    width: 24.5%;
+    background: rgba( 255, 255, 255, 0.15 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    /* margin-top: 1px; */
+    padding: 2px;
+}
+
+.card{
+    margin-bottom: 3px;
+    border-radius: 3px;
+    /* margin-left: 0px; */
+}
+
+/* .card-body{
+    padding-left: 0px;
+} */
+
+.card-text{
+    margin-bottom: 0px;
+}
+
+.priority-low{
+border-left:10px solid green ;
+border-radius: 3px;
+}
+
+.priority-medium{
+    border-left:10px solid yellow ;
+    border-radius: 3px;
+
+}
+
+.priority-high{
+    border-left:10px solid red ;
+    border-radius: 3px;
+
+}
+
+.num{
+    color: black;
+    background-color: white;
+    border: 0.5px solid white;
+    border-radius: 5px;
+    margin-left: 3px;
+    padding: 1px 4px;
+}
+
+.progress{
+    background-color: rgba(255, 255, 255, 0.144);
+    color: white;
+    display: flex;
+    justify-content: flex-start;
+    height: 23px;
+    width: 100%;
+    margin: auto;
+    vertical-align: middle;
+    border-radius: 10px;
+}
+
+.progress-bar{
+    border-radius: 10px;
+    height: 17px;
+    padding: 3px;
+    margin: 3px;
+    vertical-align: middle;
+    /* width: 90%; */
+}
+
+footer{
+    position: fixed;
+    bottom: 0;
+    display: flex; 
+    background-color: #272729;
+    width: 83%;
+    margin: auto; 
+    vertical-align: middle;
+    height: 50px;
+    padding: 7px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+/* .containFooter{
+    width: 100%;
+} */

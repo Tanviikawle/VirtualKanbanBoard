@@ -1,0 +1,90 @@
+.sticky-top{
+    background-color: #2fbbdd !important;
+}
+
+a.nav-link{
+    color: white;
+    padding-left: 25px !important;
+}
+
+#createBtn{
+    background-color: #1565fa;
+    color: white;
+    height: 1.5rem;
+    width: 1.5rem;
+    border: none;
+    border-radius: 2px;
+    text-align: center;
+    margin-left: 5px;
+    padding: 0px;
+}
+
+.cards{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5px;
+}
+
+.card{
+    margin-left: 5px;
+    width: 25%;
+}
+
+/* Style the sidebar - fixed full height */
+.sidebar {
+    height: 100%;
+    width: fit-content;
+    position: fixed;
+    /* z-index: 1; */
+    background-color: #111;
+    padding-top: 16px;
+  }
+  
+  /* Style sidebar links */
+  .sidebar a {
+    padding: 6px 8px 6px 8px;
+    text-decoration: none;
+    font-size: 1.8rem;
+    color: #818181;
+    display: block;
+  }
+
+/* Style links on mouse-over */
+.sidebar a:hover {
+    color: #2FBBDD;
+  }
+  
+.active{
+  color: #2FBBDD !important;
+
+}
+
+  /* Style the main content */
+  .main {
+    margin-left: 160px; /* Same as the width of the sidenav */
+    padding: 0px 10px;
+  }
+  
+  /* Add media queries for small screens (when the height of the screen is less than 450px, add a smaller padding and font-size) */
+  @media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+  }
+
+.label{
+  margin-right: 5rem;
+  }
+
+  .taskCard{
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .col-3{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .card{
+    text-align: left;
+  }

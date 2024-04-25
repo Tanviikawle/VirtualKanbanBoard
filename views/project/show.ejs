@@ -1,112 +1,228 @@
 <% layout('layouts/boilerplate') %>
-<div class="container-md">
-    <div class="mb-3">
-        <h1><%=project.title %></h1>
+
+<% let a=0 %>
+<% let b=0 %>
+<% let c=0 %>
+<% let d=0 %>
+
+<%  for(task of allTasks){ %>
+    <% if(task.status == 'All Tasks'){ %>
+        <% a+=1 %>
+    <% }else if(task.status == 'Backlog'){ %>
+       <%  b+=1 %>
+    <% }else if(task.status == 'In Progress'){ %>
+        <% c+=1 %>
+    <% }else{ %>
+        <% d+=1 %>
+    <% } %>
+<% } %>
+
+<% let s=a+b+c+d %>
+
+<link rel="stylesheet" href="/css/showpage.css">
+<%- include('../partials/sidebar')%>
+
+<div class="container" id="main" style="margin: auto;">
+    <div class="mb-3 mt-2" style="text-align: center;">
+        <h5 style="margin: 0px;">Project Title : <%=project.title %></h5>
+        <hr>
     </div>
     <div class="mb-3">
-        <p><%= project.description %></p>
-    </div>
-    <div class="mb-3">
-        <h2>Tasks:</h2>
-        <!-- All tasks -->
-        <h3>All Tasks</h3>
-        <ul>
-        <% for(let task of allTasks) { %>
-            <% if(task.status == 'All Tasks') { %>
-            <!-- <li><%= task.title %></li> -->
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                  <h5 class="card-title"><%= task.title %></h5>
-                  <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: <%= task.assignedTo[0].username %></h6>
-                  <p class="card-text">Due date: <%= task.dueDate %></p>
-                  <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
-                  <% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
-                  <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
-                      <button class="btn btn-danger">Delete task</button>
-                  </form>
-                  <%}%>
+        <!-- <p><%= project.description %></p> -->
+        <div style="display: flex; justify-content: space-between;">
+            <div style="display: flex;">
+                <div class="label" style="display: flex;">
+                    <p>All Tasks</p>
+                    <p class="num"><%=s%></p>
+                </div>
+                <div class="label" style="display: flex;">
+                    <p>Backlog</p>
+                    <p class="num"><%=b%>/<%=s%></p>
+                </div>
+                <div class="label" style="display: flex;">
+                    <p>In progress</p>
+                    <p class="num"><%=c%>/<%=s%></p>
+                </div>
+                <div class="label" style="display: flex;">
+                    <p>Completed</p>
+                    <p class="num"><%=d%>/<%=s%></p>
                 </div>
             </div>
-            <% } %>
-        <% } %>
-        </ul>
-        <!-- Backlog -->
-        <h3>Backlog</h3>
-        <ul>
-        <% for(let task of allTasks) { %>
-            <% if(task.status == 'Backlog') { %>
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                  <h5 class="card-title"><%= task.title %></h5>
-                  <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: <%= task.assignedTo[0].username %></h6>
-                  <p class="card-text">Due date: <%= task.dueDate %></p>
-                  <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
-                  <% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
-                  <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
-                      <button class="btn btn-danger">Delete task</button>
-                  </form>
-                  <%}%>
-                </div>
+            <div>
+                <a href="/projects/<%= project._id %>/add" style="text-decoration: none;color: white;">
+                    <div style="display: flex; vertical-align: middle;">
+                        <p>Create new task</p>
+                        <button type="button" id="createBtn">+</button>  
+                    </div>
+                </a>
             </div>
-            <% } %>
-        <% } %>
-        </ul>
-        <!-- In progress -->
-        <h3>In Progress</h3>
-        <ul>
-        <% for(let task of allTasks) { %>
-            <% if(task.status == 'In Progress') { %>
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                      <h5 class="card-title"><%= task.title %></h5>
-                      <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: <%= task.assignedTo[0].username %></h6>
-                      <p class="card-text">Due date: <%= task.dueDate %></p>
-                      <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
-                      <% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
-                      <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
-                          <button class="btn btn-danger">Delete task</button>
-                      </form>
-                      <%}%>
-                    </div>
-                </div>
-            <% } %>
-        <% } %>
-        </ul>
-        <!-- Completed -->
-        <h3>Completed</h3>
-        <ul>
-        <% for(let task of allTasks) { %>
-            <% if(task.status == 'Completed') { %>
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                      <h5 class="card-title"><%= task.title %></h5>
-                      <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: <%= task.assignedTo[0].username %></h6>
-                      <p class="card-text">Due date: <%= task.dueDate %></p>
-                      <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
-                      <% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
-                      <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
-                          <button class="btn btn-danger">Delete task</button>
-                      </form>
-                      <%}%>
-                    </div>
-                </div>
-            <% } %>
-        <% } %>
-        </ul>
-
-        <a href="/projects/<%= project._id %>/add"><button class="btn btn-primary">Add Task</button></a>
+        </div>
     </div>
 
+    <div class="container text-center mb-3">
+        <div class="row" style="display: flex; justify-content: space-between;">
+          <div class="col-3">
+           <h5 style="margin-bottom: 0px;" class="mt-2">All tasks</h5> 
+           <hr>
+            <ul class="taskCard">
+                <% for(let task of allTasks) { %>
+                    <% if(task.status == 'All Tasks') { %>
+                    <!-- <li><%= task.title %></li> -->
+                        <% if (task.priority=='low'){ %>
+                            <div class="card priority-low" style="width: 95%;">
+                            <% }else if(task.priority=='medium'){ %>
+                            <div class="card priority-medium" style="width: 95%;">
+                            <% } else { %>
+                            <div class="card priority-high" style="width: 95%;">
+                        <% } %>
+                        <div class="card-body">
+                          <h5 class="card-title"><%= task.title %></h5>
+                          <% if (project.type == "Group Project") { %>
+                          <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: <%= task.assignedTo[0].username %></h6>
+                          <% } %>
+                          <p class="card-text">Due date: <%= task.dueDate %></p>
+                          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                            <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
+                            <% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
+                            <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
+                                <button class="btn btn-danger btn-sm">Delete task</button>
+                            </form>
+                            <%}%>
+                          </div>
+                        </div>
+                    </div>
+                    <% } %>
+                <% } %>
+            </ul>
+          </div>
+          <div class="col-3">
+            <h5 style="margin-bottom: 0px;" class="mt-2">Backlog</h5>
+            <hr>
+            <ul class="taskCard">
+                <% for(let task of allTasks) { %>
+                    <% if(task.status == 'Backlog') { %>
+                        <% if (task.priority=='low'){ %>
+                            <div class="card priority-low" style="width: 95%;">
+                            <% }else if(task.priority=='medium'){ %>
+                            <div class="card priority-medium" style="width: 95%;">
+                            <% } else { %>
+                            <div class="card priority-high" style="width: 95%;">
+                        <% } %>
+                        <div class="card-body">
+                          <h5 class="card-title"><%= task.title %></h5>
+                          <% if (project.type == "Group Project") { %>
+                          <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: <%= task.assignedTo[0].username %></h6>
+                          <% } %>
+                          <p class="card-text">Due date: <%= task.dueDate %></p>
+                          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                            <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
+                          <% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
+                          <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
+                              <button class="btn btn-danger">Delete task</button>
+                          </form>
+                          <%}%>
+                        </div>
+                        </div>
+                    </div>
+                    <% } %>
+                <% } %>
+            </ul>
+          </div>
+          <div class="col-3">
+            <h5 style="margin-bottom: 0px;" class="mt-2">In progress</h5>
+            <hr>
+            <ul class="taskCard">
+                <% for(let task of allTasks) { %>
+                    <% if(task.status == 'In Progress') { %>
+                            <% if (task.priority=='low'){ %>
+                                <div class="card priority-low" style="width: 95%;">
+                                <% }else if(task.priority=='medium'){ %>
+                                <div class="card priority-medium" style="width: 95%;">
+                                <% } else { %>
+                                <div class="card priority-high" style="width: 95%;">
+                            <% } %>
+                            <div class="card-body">
+                              <h5 class="card-title"><%= task.title %></h5>
+                              <% if (project.type == "Group Project") { %>
+                              <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: <%= task.assignedTo[0].username %></h6>
+                              <% } %>
+                              <p class="card-text">Due date: <%= task.dueDate %></p>
+                              <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                                <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
+                              <% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
+                              <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
+                                  <button class="btn btn-danger">Delete task</button>
+                              </form>
+                              <%}%>
+                              </div>
+                              
+                            </div>
+                        </div>
+                    <% } %>
+                <% } %>
+            </ul>
+          </div>
+          <div class="col-3">
+            <h5 style="margin-bottom: 0px;" class="mt-2">Completed</h5>
+            <hr>
+            <ul class="taskCard">
+                <% for(let task of allTasks) { %>
+                    <% if(task.status == 'Completed') { %>
+                        <% if (task.priority=='low'){ %>
+                        <div class="card priority-low" style="width: 95%;">
+                        <% }else if(task.priority=='medium'){ %>
+                        <div class="card priority-medium" style="width: 95%;">
+                        <% } else { %>
+                        <div class="card priority-high" style="width: 95%;">
+                        <% } %>
+                            <div class="card-body">
+                              <h5 class="card-title"><%= task.title %></h5>
+                              <% if (project.type == "Group Project") { %>
+                              <h6 class="card-subtitle mb-2 text-body-secondary">Assigned to: <%= task.assignedTo[0].username %></h6>
+                              <% } %>
+                              <p class="card-text">Due date: <%= task.dueDate %></p>
+                              <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                                <a href="/projects/<%= project._id %>/t/<%=task._id%>">View task</a>
+                              <% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
+                              <form action="/projects/<%= project._id%>/t/<%=task._id%>?_method=DELETE" method="post" class="mt-2">
+                                  <button class="btn btn-danger">Delete task</button>
+                              </form>
+                              <%}%>
+                              </div>
+                            </div>
+                        </div>
+                    <% } %>
+                <% } %>
+            </ul>
+          </div>
+        </div>
+      </div>
+<% let per = 0 %>
+<% per = (d/s)*100 %>
+<!-- <div class="containFooter mb-3">
+    <footer class="progress" style="position: fixed; bottom: 0; width: 100%;">
+        <h6>Total Progress: </h6>
+        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: <%=per%>%" aria-valuenow='<%= d %>' aria-valuemin="0" aria-valuemax='<%= s %>'></div>
+        <div>
+        </div>
+    </footer>
+</div> -->
+<footer>
+    <h6>Total Progress: </h6>
+    <div class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=per%>" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar progress-bar-striped bg-success" style="width: <%=per%>%"></div>
+      </div>
+</footer>
     <% if(currentUser.username == project.creator[0].username) { %>
-    <div class="mb-3">
-        <a href="/projects/<%= project._id %>/update"><button class="btn btn-primary">Update Project</button></a>
-        <form action="/projects/<%= project._id%>?_method=DELETE" method="post">
+    <div class="mb-3" style="display: flex;">
+        <a href="/projects/<%= project._id %>/update"><button class="btn btn-primary" >Update Project</button></a>
+        <form action="/projects/<%= project._id%>?_method=DELETE" method="post" style="margin-left: 5px;">
             <button class="btn btn-danger">Delete Project</button>
         </form>
     </div>
-
+    <div style="height: 50px;"></div>
     <!-- Add member Modal -->
-    <% if(project.type=='Group Project'){ %>
+    <!-- <% if(project.type=='Group Project'){ %>
     <div class="mb-3">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add new Member:</button>
         <div class="modal fade modal-dialog modal-dialog-centered" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -136,6 +252,8 @@
 </div>
 <%} else {%>
     <a href="/projects/<%= project._id %>/leave"><button class="btn btn-danger">Leave Project</button></a>
-<% } %>
+<% } %> -->
+
+
 
 

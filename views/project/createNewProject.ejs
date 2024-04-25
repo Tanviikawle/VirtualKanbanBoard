@@ -1,6 +1,8 @@
 <% layout('layouts/boilerplate') %>
 <div class="container-md "  style="width: 80vh;">
-    <h1>Create New Project</h1>
+    <div class="mb-5 mt-3" style="text-align: center;">
+        <h1>Create New Project</h1>
+    </div>
     <div class="container-md">
         <form action="/projects" method="post" class="validated-form" novalidate>
             <div class="mb-3">
@@ -13,14 +15,14 @@
         
             <div class="mb-3">
                 <label for="description" class="form-label">Project Description:</label>
-                <textarea type="text" class="form-control" id="description" name="project[description]"></textarea>
+                <textarea type="text" class="form-control" id="description" name="project[description]" required></textarea>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
             </div>
             <div class="mb-3">
                 <label for="type" class="form-label">Project type:</label>
-                <select class="form-select" id="type" name="project[type]" aria-label="Default select example">
+                <select class="form-select" id="type" name="project[type]" aria-label="Default select example" required>
                     <option value="Personal Project" selected>Personal Project</option>
                     <option value="Group Project">Group Project</option>
                 </select>
@@ -28,7 +30,10 @@
                     Looks good!
                 </div>
             </div>
-            <button class="btn btn-primary btn-block">Create</button>
+            <div class="mb-3" style="display: flex; justify-content: space-between;">
+                <button type="submit" class="btn btn-primary btn-block">Create</button>
+                <a href="/projects">Back to Home</a>
+            </div>
         </form>
     </div>
 </div>

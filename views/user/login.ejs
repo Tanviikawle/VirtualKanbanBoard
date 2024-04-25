@@ -1,24 +1,39 @@
 <% layout('layouts/boilerplate') %>
-<div class="container-md "  style="width: 80vh;">
-    <h1>Login</h1>
-    <div class="container-md">
-        <form action="/login" method="post" class="validated-form" novalidate>
-            <div class="mb-3">
-                <label for="username" class="form-label" autofocus>Username</label>
-                <input type="text" class="form-control" id="username" name="username" required>
-                <div class="valid-feedback">
-                    Looks good!
+<link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+<link rel="stylesheet" href="/css/user.css">
+<div>
+    <section class="sign-in">
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
+                </div>
+
+                <div class="signin-form">
+                    <h2 class="form-title">Login</h2>
+                    <form id="login-form" action="/login" method="post" class="validated-form register-form" novalidate>
+                        <div class="form-group">
+                            <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text"  name="username" id="your_name" placeholder="Your Username" required/>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                            <input type="password" name="password"  id="your_pass" placeholder="Password" required/>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="form-group form-button" style="display: flex; justify-content: space-around;align-items: baseline;">
+                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                            <a href="/register" class="signup-image-link">Create an account</a>
+                        </div>
+                    </form>
                 </div>
             </div>
-        
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-            </div>
-            <button class="btn btn-success btn-block">Login</button>
-        </form>
-    </div>
+        </div>
+    </section>
 </div>
+    

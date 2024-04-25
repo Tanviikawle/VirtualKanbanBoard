@@ -1,7 +1,9 @@
 <% layout('layouts/boilerplate') %>
-<div class="container-md "  style="width: 80vh;">
-    <h1>Update Project '<%= project.title %>'</h1>
-    <div class="container-md">
+<div class="container-md "  style="width: 100vh;">
+    <div class="mb-5 mt-3" style="text-align: center;">
+        <h1>Update Project '<%= project.title %>'</h1>
+    </div>
+    <div class="container-md" style="width: 80vh;">
         <form action="/projects/<%=project._id%>?_method=PUT" method="post" class="validated-form" novalidate>
             <div class="mb-3">
                 <label for="title" class="form-label" autofocus>Project title: </label>
@@ -33,7 +35,9 @@
                     Looks good!
                 </div>
             </div>
-            <button class="btn btn-primary btn-block">Update</button>
+            <div class="mb-3" style="display: flex; justify-content: space-between; vertical-align: baseline;">
+                <button class="btn btn-primary btn-block">Update</button>
+            </div>
         </form>
     </div>
 </div>

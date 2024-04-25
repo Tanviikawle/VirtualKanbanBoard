@@ -28,7 +28,8 @@ module.exports.register = async(req,res)=>{
         });
     }catch(e){
         req.flash('error',e.message);
-        res.render('error');
+        // res.render('error');
+        res.redirect('/register');
     }
 }
 
