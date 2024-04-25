@@ -85,7 +85,7 @@ module.exports.showAnalysis = async(req,res)=>{
 
 module.exports.showProjectInfo = async(req,res)=>{
     const { id } = req.params;
-    const project = await Project.findById(id);
+    const project = await Project.findById(id).populate('members').populate('creator');
     res.render(`project/info`,{project})
 }
 

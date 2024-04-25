@@ -1,4 +1,96 @@
 <% layout('layouts/boilerplate') %>
 <%- include('../partials/sidebar')%>
 
-<h1>Here will be project information</h1>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+    }
+
+    textarea,
+    input[type="text"],
+    select,
+    input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+
+<div class="container">
+    <h2 style="text-align: center">Project Title: <%=project.title%></h2>
+    <hr>
+    <div style="display: flex;flex-direction: column;">
+        <div class="mb-2" style="display: flex;">
+            <label for="description">Description: &nbsp</label>
+            <p> <%=project.description %></p>
+        </div>
+        <div class="mb-2" style="display: flex;">
+            <label for="description">Creator: &nbsp </label>
+            <p> <%=project.creator[0].username %></p>
+        </div>
+        <div class="mb-2" style="display: flex;">
+            <label for="description">Project Type: &nbsp </label>
+            <p> <%=project.type %></p>
+        </div>
+        <% if(project.type == "Group Project"){ %>
+        <div class="mb-2" style="display: flex;">
+            <label for="description">Project Group Members: &nbsp </label>
+            <ul>
+                <%console.log(project.members)%>
+                <% for (m in project.members) { %>
+                    <li><%= project.members[m].username %></li>
+                <% } %>
+            </ul>
+        
+        </div>
+        <% } %>
+        <div class="mb-2" style="display: flex;">
+            <label for="description">Date of creation: &nbsp</label>
+            <p> <%=project.date %></p>
+        </div>
+        <div class="mb-2" style="display: flex; justify-content: space-evenly;">
+            <button class="btn btn-danger" onclick = "window.print()">Print</button>
+            <a href="/projects/<%=project._id%>">Back to Dashboard</a>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,7 @@
 const User = require('./models/user');
+const ExpressError = require('./utils/ExpressError');
+const {projectSchema,taskSchema} = require('./schemas.js');
+
 
 module.exports.isLoggedIn = (req,res,next)=>{
     if(!req.isAuthenticated()){
@@ -24,4 +27,24 @@ module.exports.isUserRegistered = async(req,res,next)=>{
     }
     
     next();
+}
+
+module.exports.validateProject = (req,res,next) => {
+    const {error} = projectSchema.validate(req.body);
+    if(error){
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg,400)
+    }else {
+        next();
+    }
+}
+
+module.exports.validateTask = (req,res,next) => {
+    const {error} = taskSchema.validate(req.body);
+    if(error){
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg,400)
+    }else {
+        next();
+    }
 }

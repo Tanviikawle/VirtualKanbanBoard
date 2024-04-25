@@ -1,14 +1,109 @@
 <% layout('layouts/boilerplate') %>
 <%- include('../partials/sidebar')%>
 
-<h1>Title:<%=task.title %></h1>
-<p>Description:<%=task.description %></p>
-<p>Status:<%=task.status%></p>
-<p>Priority:<%=task.priority%></p>
-<p>Date of creation: <%=task.date%></p>
-<p>Due Date: <%=task.dueDate%></p>
-<p>Assigned to: <%= task.assignedTo[0].username %></p>
-<a href="/projects/<%=task.projectId%>">Back to all tasks</a>
-<% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
-<a href="/projects/<%= task.projectId %>/t/<%=task._id%>/update"><button class="btn btn-primary">Update Task</button></a>
-<%}%>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 90vh;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+    }
+
+    textarea,
+    input[type="text"],
+    select,
+    input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+
+<div class="container" style="padding: 0px; border-radius: 7px 7px 0px 0px; padding-bottom: 10px;">
+        <% if (task.priority=='low'){ %>
+        <div class=" mb-3" style="color: white; background-color: green;height: 8vh;border-radius: 7px 7px 0px 0px;">
+        <% }else if(task.priority=='medium'){ %>
+        <div class=" mb-3" style="color: white; background-color: blue;height: 8vh;border-radius: 7px 7px 0px 0px;">
+        <% } else { %>
+        <div class=" mb-3" style="color: white; background-color: red;height: 8vh;border-radius: 7px 7px 0px 0px;">
+        <% } %>
+        <h2 style="text-align: center;padding-top: 5px;">Task: <%=task.title %></h2>
+    </div>
+    <div class="row mt-3 " style="padding: 10px 30px;">
+        <div class="col" style="padding: 3px;border-right: 1px solid rgba(0, 0, 0, 0.5);">
+            <label for="description">Description: &nbsp</label>
+            <p style="word-break: break-all;"> <%=task.description %></p>
+        </div>
+        <div class="col">
+            <div style="display: flex;">
+                <label for="description">Status: &nbsp </label>
+                <p> <%=task.status %></p>
+            </div>
+            
+            <div style="display: flex;">
+                <label for="description">Priority: &nbsp </label>
+                <p> <%=task.priority %></p>
+            </div>
+            
+            <div style="display: flex;">
+                <label for="description">Due Date: &nbsp</label>
+                <p> <%=task.dueDate %></p>
+            </div>
+            
+            <div style="display: flex;">
+                <label for="description">Assigned to: &nbsp </label>
+                <p><%=task.assignedTo[0].username %></p>
+            </div>
+
+            <div style="display: flex;">
+                <label for="description">Date of creation: &nbsp</label>
+                <p> <%=project.date %></p>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3 mt-3" style="display: flex; justify-content: space-evenly;">
+        <% if (currentUser.username == task.assignedTo[0].username || currentUser.username == project.creator[0].username){%>
+        <a href="/projects/<%= task.projectId %>/t/<%=task._id%>/update"><button class="btn btn-primary">Update Task</button></a>
+        <%}%>
+        <a href="/projects/<%=task.projectId%>">Back to all tasks</a>
+    </div>
+</div>
+
+   
