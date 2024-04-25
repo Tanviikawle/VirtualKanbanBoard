@@ -1,1 +1,24 @@
 <% layout('layouts/boilerplate') %>
+
+<div class="container-md "  style="width: 100vh;">
+    <div class="mb-5 mt-3" style="text-align: center;">
+        <h1>Add new member</h1>
+    </div>
+    <div class="container-md" style="width: 80vh;">
+        <form action="/projects/<%=project._id%>/n" method="post" class="validated-form" novalidate>
+            <div class="mb-3" style="display: flex;justify-content: center;flex-direction: column;">
+                <p>Add email id of a person whom you want to add in the project.</p>
+                <p><b>Note: </b>That email id should be registerd with "Flowhub".Otherwise ask them to register or create an account on Flowhub.</p>
+                <label for="email" class="form-label" autofocus>Recipent's email id: </label>
+                <input type="text" class="form-control" id="email" name="newMemberEmail" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3" style="display: flex; justify-content: space-between; vertical-align: baseline;">
+                <button class="btn btn-primary btn-block">Add</button>
+                <a href="/projects/<%=project._id %>">Back to project</a>
+            </div>
+        </form>
+    </div>
+</div>

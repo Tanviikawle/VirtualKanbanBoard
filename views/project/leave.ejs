@@ -1,7 +1,18 @@
 <% layout('layouts/boilerplate') %>
-<div class="container mb-3">
-    <h3>Are you sure youwant to leave project?</h3>
-    <form action="/projects/<%= project._id%>/leave" method="post">
-        <button class="btn btn-danger">yes, Leave Project</button>
-    </form>
+<div class="container-md mb-3">
+    <div class="mb-3 mt-5" style="text-align: center;">
+        <h3>Are you sure you want to leave project?</h3>
+    </div>
+    <div style="text-align: center;">
+        <p>If you're considering leaving the project, we understand that circumstances change and priorities shift.
+            Before making your final decision, we encourage you to reach out to discuss any concerns or challenges you may be facing.
+            Your input is valuable to us, and we're committed to finding solutions that work for everyone involved.
+            Thank you for your contributions thus far, and we wish you all the best in your future endeavors.
+        </p>
+        <form action="/projects/<%= project._id%>/leave" method="post">
+            <button class="btn btn-danger">yes, Leave Project</button>
+            <a href="/projects/<%= project._id%>" style="margin-left: 10px;">Cancel</a>
+        </form>
+    </div>
+    
 </div>

@@ -49,10 +49,21 @@ a.nav-link{
     display: block;
   }
 
+  .sidebar svg{
+    padding: 3px 4px 3px 4px;
+    /* font-size: 3rem; */
+    color: #818181;
+    display: block;
+  }
+
 /* Style links on mouse-over */
 .sidebar a:hover {
     color: #2FBBDD;
   }
+
+.sidebar svg:hover {
+  color: #2FBBDD !important;
+}
   
 .active{
   color: #2FBBDD !important;

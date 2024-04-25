@@ -1,0 +1,40 @@
+<% layout('layouts/boilerplate') %>
+
+<% var a=0 %>
+<% var b=0 %>
+<% var c=0 %>
+<% var d=0 %>
+
+<%  for(task of allTasks){ %>
+    <% if(task.status == 'All Tasks'){ %>
+        <% a+=1 %>
+    <% }else if(task.status == 'Backlog'){ %>
+       <%  b+=1 %>
+    <% }else if(task.status == 'In Progress'){ %>
+        <% c+=1 %>
+    <% }else{ %>
+        <% d+=1 %>
+    <% } %>
+<% } %>
+
+<% let s=a+b+c+d %>
+<script>
+    const allTasks = '<%-JSON.stringify(allTasks)%>';
+</script>
+
+<link rel="stylesheet" href="/css/showpage.css">
+<%- include('../partials/sidebar')%>
+
+<div class="container" id="main" style="margin: auto;">
+    <div class="mb-3 mt-2" style="text-align: center;">
+        <h5 style="margin: 0px;">Project Title : <%=project.title %></h5>
+        <hr>
+    </div>
+    <div class="container-md mb-3" style="height: 65vh;width: 65vh; margin: auto; padding: 10px;">
+        <canvas id="chartId" aria-label="chart" ></canvas>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"></script>
+<script src="/javascripts/pieChart.js"></script>

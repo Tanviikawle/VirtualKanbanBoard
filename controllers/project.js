@@ -70,6 +70,25 @@ module.exports.deleteProject = async(req,res)=>{
     res.redirect('/projects');
 }
 
+module.exports.renderAddNewMember = async(req,res)=>{
+    const { id } = req.params;
+    const project = await Project.findById(id);
+    res.render(`project/addNewMember` , {project});   
+}
+
+module.exports.showAnalysis = async(req,res)=>{
+    const { id } = req.params;
+    const project = await Project.findById(id);
+    const allTasks = await Task.find({projectId:id}).populate('assignedTo');
+    res.render(`project/analysis` , {project,allTasks});   
+}
+
+module.exports.showProjectInfo = async(req,res)=>{
+    const { id } = req.params;
+    const project = await Project.findById(id);
+    res.render(`project/info`,{project})
+}
+
 module.exports.addNewMember = async(req,res)=>{
     const { id } = req.params;
     try{

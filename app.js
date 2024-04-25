@@ -16,6 +16,7 @@ const tasks = require('./controllers/task');
 const users = require('./controllers/user');
 const projects = require('./controllers/project')
 
+
 //Database Connection
 mongoose.connect('mongodb://localhost:27017/kanban',{});
 
@@ -78,12 +79,15 @@ app.get('/projects',isLoggedIn,projects.showProjects);
 app.post('/projects',projects.addProject)
 app.get('/newProject',isLoggedIn,projects.renderNewProject)
 app.get('/projects/:id',projects.showProject)
+app.get('/projects/:id/info',projects.showProjectInfo)
 app.get('/projects/:id/update',projects.renderUpdateProject)
 app.put('/projects/:id', projects.updateProject)
 app.delete('/projects/:id',projects.deleteProject)
-app.post('/projects/:id/n',isUserRegistered,projects.addNewMember)
+app.get('/projects/:id/analysis',projects.showAnalysis)
 app.get('/projects/:id/leave',projects.renderLeaveProject)
 app.post('/projects/:id/leave',projects.leaveProject)
+app.get('/projects/:id/newMember',projects.renderAddNewMember)
+app.post('/projects/:id/n',isUserRegistered,projects.addNewMember)
 
 //Task routes
 app.get('/projects/:id/add',isLoggedIn,tasks.renderNewTask)

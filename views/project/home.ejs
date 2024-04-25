@@ -17,7 +17,12 @@
           
     <h3>Your Projects:</h3>
     <%if (projects.length==0){ %>
-        <p class="text-muted" style="text-align: center;"><i>Nothing to show</i></p>
+        <div class="mb-3" style=" width: 30%; margin: auto;">
+            <div style="margin: auto;width: fit-content;">
+                <img src="/images/image.PNG" alt="No files" style="height: 150px;">
+            </div>
+            <p class="text-muted" style="text-align: center;"><i>Nothing to show</i></p>
+        </div>
     <% }else{ %>
     <div class="mb-3 cards">
         <% for (let project in projects){ %>

@@ -199,14 +199,7 @@
       </div>
 <% let per = 0 %>
 <% per = (d/s)*100 %>
-<!-- <div class="containFooter mb-3">
-    <footer class="progress" style="position: fixed; bottom: 0; width: 100%;">
-        <h6>Total Progress: </h6>
-        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: <%=per%>%" aria-valuenow='<%= d %>' aria-valuemin="0" aria-valuemax='<%= s %>'></div>
-        <div>
-        </div>
-    </footer>
-</div> -->
+
 <footer>
     <h6>Total Progress: </h6>
     <div class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=per%>" aria-valuemin="0" aria-valuemax="100">
@@ -214,45 +207,26 @@
       </div>
 </footer>
     <% if(currentUser.username == project.creator[0].username) { %>
-    <div class="mb-3" style="display: flex;">
-        <a href="/projects/<%= project._id %>/update"><button class="btn btn-primary" >Update Project</button></a>
-        <form action="/projects/<%= project._id%>?_method=DELETE" method="post" style="margin-left: 5px;">
-            <button class="btn btn-danger">Delete Project</button>
-        </form>
-    </div>
-    <div style="height: 50px;"></div>
-    <!-- Add member Modal -->
-    <!-- <% if(project.type=='Group Project'){ %>
-    <div class="mb-3">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add new Member:</button>
-        <div class="modal fade modal-dialog modal-dialog-centered" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                <form action="/projects/<%=project._id%>/n" method='post'>
-                    <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">Recipient:</label>
-                    <input type="text" class="form-control" id="recipient-name" name="newMemberEmail">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Send message</button>
-                </form>
-                </div>
-            </div>
-            </div>
+    <div class="mb-3" style="display: flex; justify-content: space-between;">
+        <div style="display: flex;">
+            <a href="/projects/<%= project._id %>/update"><button class="btn btn-primary" >Update Project</button></a>
+            <form action="/projects/<%= project._id%>?_method=DELETE" method="post" style="margin-left: 5px;">
+                <button class="btn btn-danger">Delete Project</button>
+            </form>
         </div>
+       <div>
+        <% if(project.type=='Group Project'){ %>
+            <a href="/projects/<%=project._id %>/newMember">
+                <button type="button" class="btn btn-primary">Add new Member</button>
+            </a>
+        <%}%>
+       </div>
     </div>
-    <%}%>
+    <div style="height: 30px;"></div>
 </div>
 <%} else {%>
     <a href="/projects/<%= project._id %>/leave"><button class="btn btn-danger">Leave Project</button></a>
-<% } %> -->
+<% } %>
 
 
 

@@ -5,7 +5,7 @@
     </div>
     <div class="container-md" style="width: 80vh;">
         <form action="/projects/<%=project._id%>?_method=PUT" method="post" class="validated-form" novalidate>
-            <div class="mb-3">
+            <div class="mb-3" style="display: flex;justify-content: center;flex-direction: column;">
                 <label for="title" class="form-label" autofocus>Project title: </label>
                 <input type="text" class="form-control" id="title" name="project[title]" value="<%= project.title %>" required>
                 <div class="valid-feedback">
@@ -37,6 +37,7 @@
             </div>
             <div class="mb-3" style="display: flex; justify-content: space-between; vertical-align: baseline;">
                 <button class="btn btn-primary btn-block">Update</button>
+                <a href="/projects/<%=project._id %>">Back to project</a>
             </div>
         </form>
     </div>
