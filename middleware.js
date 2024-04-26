@@ -2,7 +2,6 @@ const User = require('./models/user');
 const ExpressError = require('./utils/ExpressError');
 const {projectSchema,taskSchema} = require('./schemas.js');
 
-
 module.exports.isLoggedIn = (req,res,next)=>{
     if(!req.isAuthenticated()){
         req.session.returnTo = req.originalUrl
